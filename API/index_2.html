@@ -1,0 +1,318 @@
+<html>
+    <head>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
+
+        <style>
+            *{
+    margin: 0;
+    padding: 0;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6)50%,rgba(0, 0, 0, 0.5)50%),url(/static/bg2.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+  
+    overflow: hidden;
+}   
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position:0%50%;}
+}
+
+.logo img{
+    height: 100px;
+}
+.transparent-box{
+    height: 500px;
+    width: 1000px;
+    background: linear-gradient(to top, rgba(131, 125, 125, 0.2)50%,rgba(131, 125, 125, 0.2)50%);
+    border-radius: 5%;
+    
+}
+
+.first-column button img{
+    height: 150px;
+    padding: 20px;
+}
+
+.transparent-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:150px;
+    position: relative;
+}
+
+.second-column{
+    display: flex-row;
+    background: transparent;
+}
+
+
+.first-column button{
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.2)50%,rgba(0, 0, 0, 0.2)50%);
+    border-radius: 100%;
+    border:none;
+    cursor: pointer;
+}
+
+.first-column button:hover{
+    background-color: aliceblue;
+
+}
+
+.circle{
+    height: 350px;
+    color: white;
+}
+
+.t1{
+    color: white;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.t1 span{
+    color: red;
+    
+}
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+h2{
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.t2 span{
+    color: red;
+    
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.navi ul{
+    display: flex;
+    gap: 150px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin-bottom: 30px;
+    list-style: none;
+}
+
+.navi ul a{
+    text-decoration: none;
+    color: white;
+    padding: 0 10px;
+    margin: 0 30px;
+    position: relative;
+
+}
+
+.navi ul a:hover{
+    color: red;
+}
+
+.navi ul a::before{
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background-color: red;
+    transition: 0.5s ease;
+    
+}
+
+.navi ul a:hover::before{
+    width: 100%;
+
+}
+
+.first-column button:hover{
+    transform: scale(1.1);
+    transition: 0.3s ease;
+    background-color: rgb(145, 0, 17);
+
+}
+
+.transparent-box::after{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: red;
+    top: 50%;
+    left: 50%;
+    translate: -50%, -50%;
+    z-index: -1;
+    padding: 3px;
+    border-radius: 10px;
+
+}
+#transcription-box{
+    display: flex-column;
+    background: #000000;
+    width: 300px;
+    height: 300px;
+    margin-top: 20px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    color: azure;
+}
+
+#status {
+    color: rgb(0, 0, 0);
+}
+
+#phn_num {
+    display: flex;
+    align-items: center;
+    padding-left: 100px;
+}
+        </style>
+        
+    </head>
+
+    <body>
+        
+
+        <div class="main">
+
+            <div class="navi">
+                <ul>
+                    <a href="login.html"><li>Home</li></a>
+                    <a href="aboutus.html" target="_blank"><li>About us</li></a>
+                    <a href="" target="_blank"><li>Documentary</li></a>
+                </ul>
+            </div>
+            <div class="titles">
+                
+
+                <div class = "title">
+                    <h1 class="t1"><span>T</span>rust<span>T</span>alk</h1>
+                    <h2 class = "t2">An <span>AI</span>-Powered Protection for Every Interaction.</h2>
+
+                </div>
+
+                </div>
+            
+
+            <div class="transparent-box">
+                <div class="first-column">
+                    
+                    <button class="start" onclick="startTranscription()">
+                        <img src="/static/mic3.png" alt="start">     
+                    </button>
+
+                    <button class="stop" onclick="stopTranscription()">
+                        <img src="/static/mic3.png" alt="stop">     
+                    </button>
+
+                
+                </div>
+            
+                <div class="second-column">
+                    <div id="status">Not connected</div>
+                    <div id="transcription-box"></div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="scam-score">
+            <h3>Net Scam Score: <span id="net-scam">0%</span></h3>
+        </div>
+        
+        <script>
+            let ws;
+            const transcriptionBox = document.getElementById('transcription-box');
+            const statusElement = document.getElementById('status');
+    
+            function startTranscription() {
+                if (ws && ws.readyState === WebSocket.OPEN) return;
+    
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+                
+                ws.onopen = () => {
+                    statusElement.textContent = 'Connected - Listening...';
+                    statusElement.style.backgroundColor = '#d4edda';
+                };
+                
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    const entry = document.createElement('div');
+                    entry.className = 'entry';
+                    
+                    // Add transcribed text
+                    const text = document.createElement('div');
+                    text.textContent = data.text;
+                    entry.appendChild(text);
+                    
+                    // Add prediction if available
+                    if (data.prediction && !data.prediction.error) {
+                        const prediction = document.createElement('div');
+                        prediction.className = 'prediction';
+                        prediction.innerHTML = `
+                            Prediction: ${data.prediction.class}
+                            <div class="scam">
+                                <div class="scam-level" 
+                                     style="width: ${data.prediction.scam * 100}%">
+                                </div>
+                            </div>
+                            scam: ${(data.prediction.scam * 100).toFixed(1)}%
+                        `;
+                        entry.appendChild(prediction);
+                    }
+                    
+                    transcriptionBox.appendChild(entry);
+                    transcriptionBox.scrollTop = transcriptionBox.scrollHeight;
+                };
+                
+                ws.onclose = () => {
+                    statusElement.textContent = 'Disconnected';
+                    statusElement.style.backgroundColor = '#f8d7da';
+                };
+                
+                ws.onerror = (error) => {
+                    console.error('WebSocket error:', error);
+                    statusElement.textContent = 'Connection error';
+                    statusElement.style.backgroundColor = '#f8d7da';
+                };
+            }
+            
+            function stopTranscription() {
+                if (ws) {
+                    ws.close();
+                }
+                statusElement.textContent = 'Stopped';
+                statusElement.style.backgroundColor = '#e2e3e5';
+            }
+           
+                  
+        </script>
+    </body>
+</html>
