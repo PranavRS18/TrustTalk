@@ -1,0 +1,14 @@
+### **Setup Instructions**  
+
+#### **1. Install Necessary Libraries**  
+Run the following command in the terminal to install all required dependencies:  
+pip install -r requirements.txt
+
+
+#### **2. Download and Store the Model**  
+- Download `mymodel.h5` from the provided Drive link.  
+- Save it in the project directory as `mymodel.h5`.  
+
+#### **3. Run the API**  
+Use the following command to start the application:  
+uvicorn api:app --reload
